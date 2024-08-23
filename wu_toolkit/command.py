@@ -10,6 +10,7 @@ from typing_extensions import Annotated
 from wu_toolkit.__version__ import __title__, __version__
 from wu_toolkit.app_config import config_, config_dir
 from wu_toolkit.script.vesta_op import vesta_
+from wu_toolkit.script.neb_aseview_ import visualize_neb_structures
 
 wtk = typer.Typer(add_completion=False)
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
@@ -47,3 +48,12 @@ def config(
 @wtk.command(context_settings=CONTEXT_SETTINGS, help="Open files with Vesta")
 def vesta(file_path: Annotated[str, typer.Argument(help="Input file path")]):
     vesta_(file_path)
+
+@wtk.command(context_settings=CONTEXT_SETTINGS, help="Visualize NEB structures")
+def neb(
+    start: Annotated[int, typer.Argument(help="Start folder number")],
+    end: Annotated[int, typer.Argument(help="End folder number")],
+    filename: Annotated[str, typer.Argument(help="Structure file name")],
+    base_dir: Annotated[str, typer.Argument(help="Base directory")] = ".",
+):
+    visualize_neb_structures(start, end, filename, base_dir)

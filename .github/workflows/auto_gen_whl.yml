@@ -1,4 +1,4 @@
-name: publish HtmaCat-kit to release & PyPI
+name: publish wu-toolkit to release & PyPI
 
 on:
   workflow_dispatch:
@@ -6,17 +6,17 @@ on:
       branch:
         description: "The branch to run the workflow on"
         required: false
-        default: "master"
+        default: "main"
         type: choice
         options:
-          - "master"
+          - "main"
           - "dev"
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
     types:
       - ready_for_review
       - review_requested
