@@ -17,6 +17,6 @@ def vesta_(file_path):
     # 使用变量
     VESTA_path = config_data.get(
         "VESTA_path",
-        "VESTA_path not found, please set 'wtk config -a VESTA_path /path/to/VESTA'",
+        "VESTA_path not found, please set 'wtk config -a a VESTA_path /path/to/VESTA'",
     )
     os.system(f"{VESTA_path} {file_path}")
