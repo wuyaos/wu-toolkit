@@ -24,7 +24,6 @@ wheels/
 *.egg
 *.vasp
 MANIFEST
-script/
 dist/
 .vscode/
 

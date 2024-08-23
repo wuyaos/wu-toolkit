@@ -25,8 +25,6 @@ setup(
     python_requires=">=3.7",
     install_requires=requirements,
     packages=find_packages(),
-    # 把script加进去
-    package_data={"wu_toolkit": ["script/*"]},
     include_package_data=True,
     entry_points={
         "console_scripts": [
