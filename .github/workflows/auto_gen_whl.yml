@@ -1,0 +1,64 @@
+name: publish HtmaCat-kit to release & PyPI
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "The branch to run the workflow on"
+        required: false
+        default: "master"
+        type: choice
+        options:
+          - "master"
+          - "dev"
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+    types:
+      - ready_for_review
+      - review_requested
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.branch || github.ref }}
+      - name: Publish Python Package
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
+
+      - name: Build wheel and source distribution
+        run: |
+          pip install setuptools wheel
+          python setup.py sdist bdist_wheel
+
+      - name: Release version
+        id: release_version
+        run: |
+          app_version=$(python setup.py --version)
+          echo "app_version=$app_version" >> $GITHUB_ENV
+          echo "app_version=$app_version"
+
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: dist/*.whl
+          tag: v${{env.app_version}}
+          release_name: v${{env.app_version}}
+          overwrite: false
+          file_glob: true
+          body: ${{github.event.head_commit.message}}
+
+      - name: Publish package to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{secrets.PYPI_API_TOKEN}}
+          skip_existing: true
