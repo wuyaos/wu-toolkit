@@ -11,6 +11,9 @@ from wu_toolkit.__version__ import __title__, __version__
 from wu_toolkit.app_config import config_, config_dir
 from wu_toolkit.script.vesta_op import vesta_
 from wu_toolkit.script.neb_aseview_ import visualize_neb_structures
+from rich.console import Console
+from rich.panel import Panel
+from rich.text import Text
 
 wtk = typer.Typer(add_completion=False)
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
@@ -23,11 +26,7 @@ def main():
 @wtk.callback(
     invoke_without_command=True,
     no_args_is_help=True,
-    epilog=f"""+--------------------------------------------------------------------------------------------------------+\n
-|                                           Wu-ToolKit                                                   |\n
-|                                          Version: {__version__}                                                  |\n
-|                                        Some scripts for personal use                                   |\n
-+--------------------------------------------------------------------------------------------------------+""",
+    help=f"Wu-ToolKit   version: {__version__}",
     context_settings=CONTEXT_SETTINGS,
 )
 def main_command():
@@ -36,6 +35,7 @@ def main_command():
 @wtk.command(
     context_settings=CONTEXT_SETTINGS,
     help="Add, modify, delete, or show variables in the configuration file",
+    no_args_is_help=True,
 )
 def config(
     action: Annotated[str, typer.Option("--action", "-a", help="Operation type: a (add), m (modify), d (delete), s (show)")] = None,
@@ -45,11 +45,19 @@ def config(
     config_(action, var_name, var_value)
 
 # 自定义命令
-@wtk.command(context_settings=CONTEXT_SETTINGS, help="Open files with Vesta")
+@wtk.command(
+    context_settings=CONTEXT_SETTINGS, 
+    help="Open files with Vesta",
+    no_args_is_help=True,
+    )
 def vesta(file_path: Annotated[str, typer.Argument(help="Input file path")]):
     vesta_(file_path)
 
-@wtk.command(context_settings=CONTEXT_SETTINGS, help="Visualize NEB structures")
+@wtk.command(
+    context_settings=CONTEXT_SETTINGS, 
+    help="Visualize NEB structures",
+    no_args_is_help=True,
+    )
 def neb(
     start: Annotated[int, typer.Argument(help="Start folder number")],
     end: Annotated[int, typer.Argument(help="End folder number")],
