@@ -1,2 +1,2 @@
-__title__ = Wu-ToolKit
-__version__ = 1.4.1
+__title__ = "Wu-ToolKit"
+__version__ = "1.4.2"

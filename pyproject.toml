@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "wu_toolkit"
 # 请根据__version__.py写版本号
-version = "1.4.1"
+version = "1.4.2"
 description = "个人用的命令包"
 authors = ["wuyaos <wufeifeng_hust@163.com>"]
 license = "GPLv3"
