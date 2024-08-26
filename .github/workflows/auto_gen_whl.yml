@@ -36,15 +36,18 @@ jobs:
 
       - name: Build wheel and source distribution
         run: |
-          pip install setuptools wheel
-          python setup.py sdist bdist_wheel
+          # poetry
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry install
+          poetry build
 
       - name: Release version
         id: release_version
         run: |
-          app_version=$(python setup.py --version)
+          # pyproject.toml读取版本号
+          app_version=$(grep -oP '(?<=version = ")[^"]*' pyproject.toml)
           echo "app_version=$app_version" >> $GITHUB_ENV
-          echo "app_version=$app_version"
 
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
