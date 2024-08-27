@@ -1,19 +1,10 @@
-import json
-import os
-from pathlib import Path
-
 import typer
-from platformdirs import user_config_dir
-from rich import print
 from typing_extensions import Annotated
 
-from wu_toolkit.__version__ import __title__, __version__
-from wu_toolkit.app_config import config_, config_dir
+import importlib.metadata
+from wu_toolkit.app_config import config_
 from wu_toolkit.script.vesta_op import vesta_
 from wu_toolkit.script.neb_aseview_ import visualize_neb_structures
-from rich.console import Console
-from rich.panel import Panel
-from rich.text import Text
 
 wtk = typer.Typer(add_completion=False)
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
@@ -26,7 +17,7 @@ def main():
 @wtk.callback(
     invoke_without_command=True,
     no_args_is_help=True,
-    help=f"Wu-ToolKit   version: {__version__}",
+    help=f"Wu-ToolKit   version: {importlib.metadata.version("wu_toolkit")}",
     context_settings=CONTEXT_SETTINGS,
 )
 def main_command():
